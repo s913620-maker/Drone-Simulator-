@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>遙控器全通道掃描器</title>
+    <style>
+        body { background-color: #111; color: #eee; font-family: monospace; padding: 20px; }
+        h1 { color: #39FF14; }
+        .axis-box { background: #222; padding: 10px; margin: 5px 0; border-left: 4px solid #FF8C00; font-size: 18px; }
+        .val { color: #00BFFF; font-weight: bold; }
+        .active { border-left-color: #39FF14; background: #334433; } /* 有數值變動時亮起 */
+    </style>
+</head>
+<body>
+    <h1>📡 遙控器全通道掃描器 (Raw Data Scanner)</h1>
+    <p style="color: #aaa;">請推動您的 Pitch (升降) 搖桿，看看底下哪一個數字會跟著平滑變動，且放開時會回到接近 0.000。</p>
+    
+    <h2 id="status" style="color: #FF3333;">等待遙控器連線... (請動一下搖桿)</h2>
+    
+    <div id="axes-container"></div>
+
+    <script>
+        const statusUI = document.getElementById('status');
+        const axesContainer = document.getElementById('axes-container');
+
+        function updateGamepad() {
+            requestAnimationFrame(updateGamepad);
+            const gamepads = navigator.getGamepads();
+            let pad = Array.from(gamepads).find(p => p !== null);
+
+            if (pad) {
+                statusUI.innerText = `✅ 已連接: ${pad.id}`;
+                statusUI.style.color = "#39FF14";
+
+                let html = "";
+                // 掃描所有可用的 Axes (通常會有 4~8 個)
+                for (let i = 0; i < pad.axes.length; i++) {
+                    let val = pad.axes[i];
+                    // 如果絕對值大於 0.1，給他一個高亮標示，方便肉眼尋找
+                    let activeClass = Math.abs(val) > 0.1 ? "active" : "";
+                    html += `<div class="axis-box ${activeClass}">Axis [${i}]: <span class="val">${val.toFixed(4)}</span></div>`;
+                }
+                axesContainer.innerHTML = html;
+            }
+        }
+        updateGamepad();
+    </script>
+</body>
+</html>
