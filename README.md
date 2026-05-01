@@ -96,3 +96,15 @@
 ⚠️ 免責聲明
 
 本模擬器旨在輔助空間感知與操作邏輯練習。實機飛行之氣動力學、電池壓降及硬體延遲與模擬環境必有差異。實際操作無人機時，請務必遵守當地民航法規，並在安全合法的空域進行。
+
+[Update @ 2026-05-01]
+新增 test.html
+當 USER 使用一般藍牙遊戲搖桿操作時
+左右類比搖桿軸名稱與專門用於無人機搖桿的軸名稱不同
+開啟 test.html 後
+操作一下左右類比搖桿
+再將結果填入 index.html 中, 例如:
+    let rawYaw = pad.axes[0] || 0; 
+    let rawThrottle = -(pad.axes[1] || 0); 
+    let rawRoll = pad.axes[2] || 0; 
+    let rawPitch = -(pad.axes[5] || 0);
