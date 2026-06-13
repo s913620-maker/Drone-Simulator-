@@ -456,10 +456,10 @@
 
                 const deadzone = 0.08; 
                 
-                let rawYaw = pad.axes[3] || 0; 
-                let rawThrottle = (pad.axes[2] || 0); 
+                let rawYaw = pad.axes[4] || 0; 
+                let rawThrottle = (pad.axes[1] || 0); 
                 let rawRoll = pad.axes[0] || 0; 
-                let rawPitch = (pad.axes[1] || 0);    
+                let rawPitch = (pad.axes[2] || 0);    
 
                 targetYaw = Math.abs(rawYaw) > deadzone ? rawYaw : 0;
                 targetThrottle = Math.abs(rawThrottle) > deadzone ? rawThrottle : 0;
